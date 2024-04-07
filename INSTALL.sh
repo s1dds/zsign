@@ -59,5 +59,6 @@ make
 # Compile zsign using cmake
 mkdir build; cd build &&
 cmake .. &&
-make
+make &&
+chmod +x zsign
     fi
