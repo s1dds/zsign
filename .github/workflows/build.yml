@@ -1,0 +1,29 @@
+name: Build zsign
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Build Binary
+        run: "chmod +x INSTALL.sh && ./INSTALL.sh"
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        with:
+          files: |
+            ${{ github.workspace }}/build/zsign
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
